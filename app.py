@@ -1,5 +1,5 @@
 import boto.sdb
-import queryc.py as queryc
+import queryc
 
 def call_query(conn):
     queryc.run(conn)
