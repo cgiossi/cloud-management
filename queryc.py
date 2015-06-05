@@ -18,9 +18,12 @@ def run(conn, station):
     stationLength = results.next()['length']
 
     while startTime < datetime.datetime.strptime("2011-09-23 00:00:00", '%Y-%m-%d %H:%M:%S'):
-        sTime = startTime.strftime('%Y-%m-%d %H:%M:%S-07')
-        eTime = endTime.strftime('%Y-%m-%d %H:%M:%S-07')
-        query = 'SELECT detectorid, speed, starttime FROM `' + stationDomain.name + '`'
+        sTime = startTime.strftime('%Y-%m-%d %H:%M:%S')
+        eTime = endTime.strftime('%Y-%m-%d %H:%M:%S')
+        query = 'SELECT detectorid, speed, starttime FROM `' + stationDomain.name + '` ' + \
+                'WHERE starttime < "' + eTime + '" ' + \
+                'AND starttime > "' + sTime + '" ' + \
+                'AND speed != ""'
         results = stationDomain.select(query)
         for i in results:
             print i
