@@ -1,15 +1,6 @@
 import boto.sdb, datetime
 import tools
 
-def groupByDetectorid(results):
-    detectors = {}
-    for i in results:
-        try:
-            detectors[i['detectorid']] += [float(i['speed'])]
-        except KeyError:
-            detectors[i['detectorid']] = [float(i['speed'])]
-    return detectors
-
 def run(conn, station):
     count = 0
     timeInterval = datetime.timedelta(0,0,0,0,5)
@@ -18,9 +9,6 @@ def run(conn, station):
     print startTime.strftime('%Y-%m-%d %H:%M:%S')
 
     stationDomain = conn.get_domain('TEAMB_' + station)
-
-    query = 'SELECT direction FROM `' + stationDomain.name + '`'
-    results = stationDomain.select(query, max_items=1)
 
     print "Querying " + stationDomain.name + " for station length"
     query = 'SELECT length FROM `' + stationDomain.name + '`'
@@ -37,22 +25,9 @@ def run(conn, station):
                 'AND speed > "0" ' + \
                 'ORDER BY starttime'
         results = stationDomain.select(query)
-        detectors = groupByDetectorid(results)
+        detectors = tools.groupByDetectorid(results)
         startTime += timeInterval
         endTime += timeInterval
-        speeds = []
-        for key in detectors.keys():
-            totalSpeed = sum(detectors[key])
-            if len(detectors[key]) != 0:
-                averageSpeed = totalSpeed/len(detectors[key])
-            speeds += [averageSpeed]
-        if len(detectors.keys()) == 0:
-            stationSpeed = 0
-        else:
-            stationSpeed = sum(speeds)/len(detectors.keys())
-        if stationSpeed != 0:
-            travelTime = (float(stationLength)/stationSpeed) * 3600
-        else:
-            travelTime = 0
+        travelTime = tools.calculateTravelTime(detectors, stationLength)
         count += 1
         print str(travelTime) + ' ' + str(count)

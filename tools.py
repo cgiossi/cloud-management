@@ -6,7 +6,6 @@ def find_teamb(conn):
     for d in allDomains:
         #Looking for TEAMB in first five characters
         if d.name[0:5] == "TEAMB":
-            #Strip TEAMB_ from domain name
             domains += [d]
     return domains
 
@@ -18,3 +17,20 @@ def groupByDetectorid(results):
         except KeyError:
             detectors[i['detectorid']] = [float(i['speed'])]
     return detectors
+
+def calculateTravelTime(detectors, stationLength):
+    speeds = []
+    for key in detectors.keys():
+        totalSpeed = sum(detectors[key])
+        if len(detectors[key]) != 0:
+            averageSpeed = totalSpeed/len(detectors[key])
+        speeds += [averageSpeed]
+    if len(detectors.keys()) == 0:
+        stationSpeed = 0
+    else:
+        stationSpeed = sum(speeds)/len(detectors.keys())
+    if stationSpeed != 0:
+        travelTime = (float(stationLength)/stationSpeed) * 3600
+    else:
+        travelTime = 0
+    return travelTime
