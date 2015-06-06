@@ -35,4 +35,26 @@ def calculate_travel_time(detectors, stationLength):
         travelTime = 0
     return travelTime
 
-#def find_highwayid(conn, direction):
+def find_highwayid(conn, direction):
+    if direction.upper() == 'NORTH':
+        domains = find_teamb(conn)
+        names = [x.name for x in domains]
+        dirDomain = [s for s in names if 'NB' in s][0]
+        dom = conn.get_domain(dirDomain)
+        query = 'SELECT highwayid FROM `' + dirDomain + '` WHERE direction = "NORTH"'
+        results = dom.select(query, max_items=1)
+        return results.next()['highwayid']
+    elif direction.upper() == 'SOUTH':
+        domains = find_teamb(conn)
+        names = [x.name for x in domains]
+        dirDomain = [s for s in names if 'SB' in s][0]
+        dom = conn.get_domain(dirDomain)
+        query = 'SELECT highwayid FROM `' + dirDomain + '` WHERE direction = "SOUTH"'
+        results = dom.select(query, max_items=1)
+        return results.next()['highwayid']
+    else:
+        print "Not a valid direction"
+        return None
+
+
+

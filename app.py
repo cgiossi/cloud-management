@@ -1,7 +1,8 @@
 import boto.sdb
+import tools
 import queryc, queryd, querye, queryff
 
-def call_query(conn):
+def call_query(conn, query):
     #queryff.run(conn)
     #queryc.run(conn, 'Foster_NB')
     #results = queryd.run(conn, 'TEAMB_Foster_NB')
@@ -9,4 +10,5 @@ def call_query(conn):
     print results
 
 conn = boto.sdb.connect_to_region('us-west-2')
-call_query(conn)
+print tools.find_highwayid(conn, 'north')
+#call_query(conn, query)
