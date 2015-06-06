@@ -23,8 +23,8 @@ def run(conn, station):
             'AND speed != ""'
 
     results = domain.select(query)
-    groupedSpeeds = tools.groupByDetectorid(results)
-    morningTravelTime = tools.calculateTravelTime(groupedSpeeds, stationLength)
+    groupedSpeeds = tools.group_by_detectorid(results)
+    morningTravelTime = tools.calculate_travel_time(groupedSpeeds, stationLength)
 
     query = 'SELECT detectorid, speed, starttime ' + \
             'FROM `' + domain.name + '`' + \
@@ -34,7 +34,7 @@ def run(conn, station):
             'AND speed != ""'
 
     results = domain.select(query)
-    groupedSpeeds = tools.groupByDetectorid(results)
-    eveningTravelTime = tools.calculateTravelTime(groupedSpeeds, stationLength)
+    groupedSpeeds = tools.group_by_detectorid(results)
+    eveningTravelTime = tools.calculate_travel_time(groupedSpeeds, stationLength)
 
     return (morningTravelTime, eveningTravelTime)

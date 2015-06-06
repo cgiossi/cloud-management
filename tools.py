@@ -9,7 +9,7 @@ def find_teamb(conn):
             domains += [d]
     return domains
 
-def groupByDetectorid(results):
+def group_by_detectorid(results):
     detectors = {}
     for i in results:
         try:
@@ -18,7 +18,7 @@ def groupByDetectorid(results):
             detectors[i['detectorid']] = [float(i['speed'])]
     return detectors
 
-def calculateTravelTime(detectors, stationLength):
+def calculate_travel_time(detectors, stationLength):
     speeds = []
     for key in detectors.keys():
         totalSpeed = sum(detectors[key])
@@ -34,3 +34,5 @@ def calculateTravelTime(detectors, stationLength):
     else:
         travelTime = 0
     return travelTime
+
+#def find_highwayid(conn, direction):

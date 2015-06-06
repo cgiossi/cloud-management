@@ -25,9 +25,9 @@ def run(conn, station):
                 'AND speed > "0" ' + \
                 'ORDER BY starttime'
         results = stationDomain.select(query)
-        detectors = tools.groupByDetectorid(results)
+        detectors = tools.group_by_detectorid(results)
         startTime += timeInterval
         endTime += timeInterval
-        travelTime = tools.calculateTravelTime(detectors, stationLength)
+        travelTime = tools.calculate_travel_time(detectors, stationLength)
         count += 1
         print str(travelTime) + ' ' + str(count)
