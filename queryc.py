@@ -3,6 +3,7 @@ import tools
 
 def run(conn, station):
     count = 0
+    retResults = []
     timeInterval = datetime.timedelta(0,0,0,0,5)
     startTime = datetime.datetime.strptime("2011-09-22 00:00:00", '%Y-%m-%d %H:%M:%S')
     endTime = datetime.datetime.strptime("2011-09-22 00:05:00", '%Y-%m-%d %H:%M:%S')
@@ -30,4 +31,5 @@ def run(conn, station):
         endTime += timeInterval
         travelTime = tools.calculate_travel_time(detectors, stationLength)
         count += 1
-        print str(travelTime) + ' ' + str(count)
+        retResults += [travelTime]
+    return retResults
