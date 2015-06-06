@@ -1,29 +1,38 @@
 import boto.sdb
-import tools 
 
-def run(conn):
-	stationLengthMapping = {}
-	domains = tools.find_teamb(conn)
-	for d in domains:
-     		query = 'SELECT direction FROM `' + d.name + '`'
-     		results = d.select(query, max_items=1)
-      #Remove all domains that don't correspond to a NB station
-      	if results.next()['direction'] != "NORTH":
-           	print "Removing southbound domain from domains to query"
-            	domains.remove(d)
-	for dom in domains:
-		query = 'SELECT locationtext,stationid,downstream,upstream FROM `' + dom.name + '`'
-		rs1 =dom.select(query)
+
+conn = boto.sdb.connect_to_region('us-west-2',aws_access_key_id='AKIAJHQ3232J4XXAWSVA',aws_secret_access_key='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')
+print conn
+rs1 = []
+domains = []
+route =[]
+allDomains = conn.get_all_domains()
+for d in allDomains:
+	#Looking for TEAMB in first five characters
+	if d.name[0:5] == "TEAMB":
+            #Strip TEAMB_ from domain name
+		domains += [d]
+
+for dom in domains:
+	query = 'SELECT locationtext,stationid,downstream,upstream FROM `' + dom.name + '`'
+	rs =dom.select(query,max_items=1)
+	rs1 += rs
+#for j in rs1:
+#	print j
+for row in rs1:
+	if row['locationtext'] == 'Johnson Cr NB':
+		did = row['downstream']
+#		print did
+	if row['locationtext'] == 'I-205 NB at Columbia':
+		uid = row['upstream']
+		print uid
+
+while (did != uid):
 	for row in rs1:
-		if row['locationnext'] == 'Johnson Creek SB':
-			did = row['downstreamid']
-		if row['locationnext'] == 'Columbia to I-205 NB':
-			uid = row['upstreamid']
-	while (did <> uid):
-		for row in rs1:
-			if row['stationid'] == did:
-				route = + row.next()['locationnext']
-				did = row['downstreamid']
+	#print row['stationid']
+		if (row['stationid'] == did):
+			route += [str(row['locationtext'])]
+			did = row['downstream']
+			break
 
- 
-	print route
+print route
