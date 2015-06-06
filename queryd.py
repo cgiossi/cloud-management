@@ -1,10 +1,24 @@
 import boto.sdb, datetime
 import tools
 
-def run(conn):
-    stationLengthMapping = {}
-    timeInterval = datetime.timedelta(0,0,0,0,5)
-    domains = tools.find_teamb(conn)
+#Find travel time for 7-9AM and 4-6PM 9/22/11 in seconds for Foster NB
+def run(conn, station):
+
+    morningStartTime = datetime.datetime.strptime("2011-09-22 00:07:00", '%Y-%m-%d %H:%M:%S')
+    morningEndTime = datetime.datetime.strptime("2011-09-22 00:09:00", '%Y-%m-%d %H:%M:%S')
+    eveningStartTime = datetime.datetime.strptime("2011-09-22 00:16:00", '%Y-%m-%d %H:%M:%S')
+    eveningEndTime = datetime.datetime.strptime("2011-09-22 00:18:00", '%Y-%m-%d %H:%M:%S')
+
+    domain = conn.get_domain('TEAMB_' + station)
+    
+    query = 'SELECT length FROM `' + domain.name + '`'
+    results = domain.select(query, max_items=1)
+    stationLength = results.next()['length']
+    domain.select(
+
+    morningTravelTime
+    eveningTravelTime
+    
     #domains is just a list of strings now, so we'll have to grab individual
     #domains through the connection
     for d in domains:

@@ -34,6 +34,7 @@ def run(conn, station):
                 'WHERE starttime < "' + eTime + '" ' + \
                 'AND starttime > "' + sTime + '" ' + \
                 'AND speed != "" ' + \
+                'AND speed > "0" ' + \
                 'ORDER BY starttime'
         results = stationDomain.select(query)
         detectors = groupByDetectorid(results)

@@ -10,3 +10,11 @@ def find_teamb(conn):
             domains += [d]
     return domains
 
+def groupByDetectorid(results):
+    detectors = {}
+    for i in results:
+        try:
+            detectors[i['detectorid']] += [float(i['speed'])]
+        except KeyError:
+            detectors[i['detectorid']] = [float(i['speed'])]
+    return detectors
