@@ -1,7 +1,7 @@
 import boto.sdb
 
 
-conn = boto.sdb.connect_to_region('us-west-2',aws_access_key_id='AKIAJHQ3232J4XXAWSVA',aws_secret_access_key='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')
+conn = boto.sdb.connect_to_region('us-west-2')
 print conn
 rs1 = []
 domains = []
