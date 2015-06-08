@@ -6,6 +6,7 @@ def run(conn):
 	rs1 = []
 	domains = []
 	route =[]
+	flag='Y'
 	domains = tools.find_teamb(conn)
 
 	for dom in domains:
@@ -20,13 +21,21 @@ def run(conn):
 			uid = row['stationid']
 			finalLocation = row['locationtext']
 			print uid
-
-	while (did != uid):
-		for row in rs1:
-			if (row['stationid'] == did):
-				print row['stationid']
-				route += [str(row['locationtext'])]
-				did = row['downstream']
+	#if the downstream id and upstream id are null then route cannot be found
+	if (did==None) or (uid == None):
+		print "Error! Route cannot be found"
+	else:
+		while (did != uid):
+			for row in rs1:
+				if (row['stationid'] == did):
+					print row['stationid']
+					route += [str(row['locationtext'])]
+					did = row['downstream']
+					break
+			if (did == '0') and (did!=uid):
+				print "No direct Route between the stations"
+				flag='N'
 				break
-	route += [str(finalLocation)]
-	return route
+		if(flag=='Y'):
+			route += [str(finalLocation)]
+			return route
