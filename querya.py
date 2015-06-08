@@ -9,7 +9,7 @@ def run(conn, domains, speed):
 		stationDomain = conn.get_domain(station.name)
 		query = 'SELECT count(*)  FROM `' + stationDomain.name + '` ' + \
         	'WHERE speed > "' + str(speed) + '" '  
-		results = stationDomain.select(query, max_items=1)
+		results = stationDomain.select(query)
 		for row in results:
 			sum += int(row['Count'])	
 	return sum

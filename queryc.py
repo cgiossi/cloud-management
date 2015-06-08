@@ -9,7 +9,7 @@ def run(conn, station, date):
     endTime = datetime.datetime.strptime(date + " 00:05:00", '%Y-%m-%d %H:%M:%S')
     print startTime.strftime('%Y-%m-%d %H:%M:%S')
 
-    stationDomain = conn.get_domain('TEAMB_' + station)
+    stationDomain = conn.get_domain(station)
 
     print "Querying " + stationDomain.name + " for station length"
     query = 'SELECT length FROM `' + stationDomain.name + '`'

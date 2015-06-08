@@ -10,12 +10,12 @@ def call_query(conn, query, args=[]):
         if len(args) != 0:
             speed = args[0]
         results = querya.run(conn, domains, speed)
-    if query == 'B':
+    elif query == 'B':
         station = domainPrefix + 'Foster_NB'
         if len(args) != 0:
             station = domainPrefix + args[0]
         results = queryb.run(conn, station)
-    if query == 'C':
+    elif query == 'C':
         station = domainPrefix + 'Foster_NB'
         date = '2011-09-22'
         if len(args) != 0:
@@ -23,7 +23,7 @@ def call_query(conn, query, args=[]):
         if len(args) >= 2:
             date = args[1]
         results = queryc.run(conn, station, date)
-    if query == 'D':
+    elif query == 'D':
         station = domainPrefix + 'Foster_NB'
         date = '2011-09-22'
         if len(args) != 0:
@@ -31,7 +31,7 @@ def call_query(conn, query, args=[]):
         if len(args) >= 2:
             date = args[1]
         results = queryd.run(conn, station, date)
-    if query == 'E':
+    elif query == 'E':
         highwayid = 3
         date = '2011-09-22'
         if len(args) != 0:
@@ -39,8 +39,10 @@ def call_query(conn, query, args=[]):
         if len(args) >= 2:
             date = args[1]
         results = querye.run(conn, highwayid, date)
-    if query == 'F':
+    elif query == 'F':
         results = queryf.run(conn)
+    else:
+        results =  "Invalid query"
     print results
 
 def main():
@@ -52,8 +54,11 @@ def main():
         exit()
     print "Connected to " + region
     #print tools.find_highwayid(conn, 'north')
+    print "Enter a query to run, or type EXIT to quit"
     query = raw_input('Enter the query you wish to run: ')
-    call_query(conn, query.upper())
+    while (query.upper() != "EXIT"):
+        call_query(conn, query.upper())
+        query = raw_input('Enter the query you wish to run: ')
 
 if __name__ == "__main__":
     main()
