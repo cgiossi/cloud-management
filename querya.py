@@ -2,7 +2,7 @@ import boto.sdb
 import tools
 
 
-def runquerya(conn,domains, speed):
+def run(conn,domains, speed):
 
 	for station in domains:
 		stationDomain = conn.get_domain( station.name)
