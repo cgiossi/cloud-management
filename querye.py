@@ -2,7 +2,7 @@ import boto.sdb
 import tools
 import queryd
 
-def run(conn, highwayid):
+def run(conn, highwayid, date):
     domains = tools.find_teamb(conn)
     results = []
     for domain in domains:
@@ -10,7 +10,7 @@ def run(conn, highwayid):
         query = 'SELECT highwayid FROM `' + domain.name + '`'
         hid = domain.select(query, max_items=1)
         if int(hid.next()['highwayid']) == highwayid:
-            results += [queryd.run(conn, domain.name)]
+            results += [queryd.run(conn, domain.name, date)]
     morningTravelTime = []
     eveningTravelTime = []
     for tt in results:

@@ -1,12 +1,12 @@
 import boto.sdb, datetime
 import tools
 
-def run(conn, station):
+def run(conn, station, date):
     count = 0
     retResults = []
     timeInterval = datetime.timedelta(0,0,0,0,5)
-    startTime = datetime.datetime.strptime("2011-09-22 00:00:00", '%Y-%m-%d %H:%M:%S')
-    endTime = datetime.datetime.strptime("2011-09-22 00:05:00", '%Y-%m-%d %H:%M:%S')
+    startTime = datetime.datetime.strptime(date + " 00:00:00", '%Y-%m-%d %H:%M:%S')
+    endTime = datetime.datetime.strptime(date + " 00:05:00", '%Y-%m-%d %H:%M:%S')
     print startTime.strftime('%Y-%m-%d %H:%M:%S')
 
     stationDomain = conn.get_domain('TEAMB_' + station)
@@ -15,8 +15,9 @@ def run(conn, station):
     query = 'SELECT length FROM `' + stationDomain.name + '`'
     results = stationDomain.select(query, max_items=1)
     stationLength = results.next()['length']
+    nextDay = startTime + datetime.timedelta(1)
 
-    while startTime < datetime.datetime.strptime("2011-09-23 00:00:00", '%Y-%m-%d %H:%M:%S'):
+    while startTime < nextDay:
         sTime = startTime.strftime('%Y-%m-%d %H:%M:%S')
         eTime = endTime.strftime('%Y-%m-%d %H:%M:%S')
         query = 'SELECT detectorid, speed, starttime FROM `' + stationDomain.name + '` ' + \

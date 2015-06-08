@@ -2,13 +2,14 @@ import boto.sdb
 import tools
 
 #Find travel time for 7-9AM and 4-6PM 9/22/11 in seconds for Foster NB
-def run(conn, station):
+def run(conn, station, date):
 
-    morningStartTime = "2011-09-22 07:00:00"
-    morningEndTime = "2011-09-22 09:00:00"
-    eveningStartTime = "2011-09-22 16:00:00"
-    eveningEndTime = "2011-09-22 18:00:00"
+    morningStartTime = date + " 07:00:00"
+    morningEndTime = date + " 09:00:00"
+    eveningStartTime = date + " 16:00:00"
+    eveningEndTime = date + " 18:00:00"
 
+    print station
     domain = conn.get_domain(station)
     
     query = 'SELECT length FROM `' + domain.name + '`'
