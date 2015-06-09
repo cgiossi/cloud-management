@@ -58,7 +58,7 @@ def call_query(conn, query, args=[]):
     else:
         results = bcolors.TEST + "Invalid query" + bcolors.ENDC
     print results
-    print "Query " + query.upper() + " took " + str(runTime) + " seconds to execute."
+    print "\n Query " + query.upper() + " took " + str(runTime) + " seconds to execute."
 
 def main():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -82,7 +82,7 @@ def main():
         args = userInput.split(' ')[1:]
         query = userInput.split(' ')[0]
         call_query(conn, query.upper(), args)
-        raw_input('Press enter to continue...')
+        raw_input('\n Press enter to continue...')
         os.system('cls' if os.name == 'nt' else 'clear')
 
 if __name__ == "__main__":
