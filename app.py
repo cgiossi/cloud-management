@@ -116,7 +116,7 @@ def call_query(conn, query, args=[]):
         print results
         return
     print results
-    print "Query " + query.upper() + " took " + str(runTime) + " seconds to execute."
+    print "\n Query " + query.upper() + " took " + str(runTime) + " seconds to execute."
 
 def main():
     os.system('cls' if os.name == 'nt' else 'clear')
