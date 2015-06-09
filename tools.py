@@ -94,12 +94,12 @@ def help():
     print "Find the volume of a given station on a given date. Defaults to Foster_NB and"
     print "2011-09-21. Dates should be of the form YYYY-MM-DD."
     print bcolors.OKGREEN,
-    print "\bc [station] [date]",
+    print "\bc [station [date]]",
     print bcolors.ENDC
     print "Find the travel time for five minute intervals of the given stations and given"
     print "date. Defaults to Foster_NB and 2011-09-22. Dates should of the form YYYY-MM-DD"
     print bcolors.OKGREEN,
-    print "\bd [station] [date]",
+    print "\bd [station [date]]",
     print bcolors.ENDC
     print "Find the travel time for peak periods of the given stations on the given date."
     print "Results are in seconds. Defaults to Foster_NB and 2011-09-22. Dates should be"
@@ -114,4 +114,4 @@ def help():
     print bcolors.OKGREEN,
     print "\bf",
     print bcolors.ENDC
-    print "Find a route from Johnson Cr Blvd and I-205 NB at Columbia"
+    print "Find a route from Johnson Cr Blvd and I-205 NB at Columbia\n"

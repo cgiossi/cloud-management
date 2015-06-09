@@ -95,8 +95,8 @@ def main():
         print bcolors.FAIL + "Could not connect to region" + bcolors.ENDC
         exit()
     print bcolors.OKGREEN + "Connected to " + region + bcolors.ENDC
-    print bcolors.DARKYELLOW + "Enter a query to run, or type EXIT to quit" + bcolors.ENDC
-    prompt = bcolors.DARKYELLOW + \
+    print bcolors.WARNING + "Enter a query to run, or type EXIT to quit" + bcolors.ENDC
+    prompt = bcolors.WARNING + \
              'Enter the query you wish to run followed by any arguments you would like to include \n' + \
              'For example: c Foster_NB 2011-09-22\n' + \
              'Enter \'help\' for the queries and syntax that can be run\n' + bcolors.ENDC
