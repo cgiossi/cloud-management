@@ -12,7 +12,6 @@ def run(args):
     eveningEndTime = date + " 18:00:00"
     
     print station
-    print "\nAvg TT in Morning\tAvg TT in Evening\n"
     domain = conn.get_domain(station)
     
     query = 'SELECT length FROM `' + domain.name + '`'

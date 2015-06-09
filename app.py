@@ -21,6 +21,7 @@ class bcolors:
 def call_query(conn, query, args=[]):
     domainPrefix = 'TEAMB_'
     IsQueryd = False
+    IsQuerye = False
     if query == 'A':
         domains = tools.find_teamb(conn)
         speed = 100
@@ -70,15 +71,21 @@ def call_query(conn, query, args=[]):
         if len(args) >= 2:
             date = args[1]
         runTime, results = tools.run_time(querye.run, [conn, highwayid, date])
+	IsQuerye = True
     elif query == 'F':
         runTime, results = tools.run_time(queryf.run, [conn])
     else:
         results = bcolors.FAIL + "Invalid query" + bcolors.ENDC
         print results
         return
+    # @Sherry: Now print the results
     if query=='C':
-    	print ' '.join(results)
+    	print ''.join(results)
     elif IsQueryd:
+	print "\nAvg TT in Morning\tAvg TT in Evening\n"
+        print results[0], "\t\t", results[1]
+    elif IsQuerye:
+	print "\nAvg TT in Morning\tAvg TT in Evening\n"
         print results[0], "\t\t", results[1]
     elif results == None:
         return
