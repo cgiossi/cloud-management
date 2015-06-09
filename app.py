@@ -116,7 +116,10 @@ def call_query(conn, query, args=[]):
         results = bcolors.TEST + "Invalid query" + bcolors.ENDC
         print results
         return
-    print results
+    if query=='C':
+    	print ' '.join(results)
+    else:
+	print Results
     print "\nQuery " + query.upper() + " took " + str(runTime) + " seconds to execute.\n"
 
 def main():
