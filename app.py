@@ -4,7 +4,12 @@ import tools
 import querya, queryb, queryc, queryd, querye, queryf
 
 class bcolors:
+    BRIGHTWHITE = '\x1b[37m'
+    DARKCYAN = '\x1b[36;1m'
+    DARKMAGENTA = '\x1b[35;1m'
+    DARKYELLOW = '\x1b[33;1m'
     HEADER = '\033[95m'
+    OKCYAN = '\033[96m'
     OKBLUE = '\033[94m'
     OKGREEN = '\033[92m'
     WARNING = '\033[93m'
@@ -12,53 +17,6 @@ class bcolors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
-    TEST = '\033[101m'
-
-def help():
-    print bcolors.OKGREEN,
-    print "\ba [speed]",
-    print bcolors.ENDC
-    print bcolors.OKBLUE,
-    print "\bFind the count of vehicles travelling greater than speed. Defaults to 100 MPH",
-    print bcolors.ENDC
-    print bcolors.OKGREEN,
-    print "\bb [station]",
-    print bcolors.ENDC
-    print bcolors.OKBLUE,
-    print "\bFind the volume of a given station on a given date. Defaults to Foster_NB and"
-    print "2011-09-21. Dates should be of the form YYYY-MM-DD.",
-    print bcolors.ENDC
-    print bcolors.OKGREEN,
-    print "\bc [station] [date]",
-    print bcolors.ENDC
-    print bcolors.OKBLUE,
-    print "\bFind the travel time for five minute intervals of the given stations and given"
-    print "date. Defaults to Foster_NB and 2011-09-22. Dates should of the form YYYY-MM-DD",
-    print bcolors.ENDC
-    print bcolors.OKGREEN,
-    print "\bd [station] [date]",
-    print bcolors.ENDC
-    print bcolors.OKBLUE,
-    print "\bFind the travel time for peak periods of the given stations on the given date."
-    print "Results are in seconds. Defaults to Foster_NB and 2011-09-22. Dates should be"
-    print "of the form YYYY-MM-DD.",
-    print bcolors.ENDC
-    print bcolors.OKGREEN,
-    print "\be ([highwayid]|[direction]) [date]",
-    print bcolors.ENDC
-    print bcolors.OKBLUE,
-    print "\bFind the travel time for peak periods of the given highway on the given date."
-    print "Results arae in minutes. Defaults to I-205 NB and 2011-09-22. Currently only"
-    print "supports I-205. Direction should be either north or south. Dates should be of"
-    print "the form YYYY-MM-DD.",
-    print bcolors.ENDC
-    print bcolors.OKGREEN,
-    print "\bf",
-    print bcolors.ENDC
-    print bcolors.OKBLUE,
-    print "\bFind a route from Johnson Cr Blvd and I-205 NB at Columbia"
-    print bcolors.ENDC
-    
 
 def call_query(conn, query, args=[]):
     domainPrefix = 'TEAMB_'
@@ -93,34 +51,39 @@ def call_query(conn, query, args=[]):
         if len(args) >= 2:
             date = args[1]
         runTime, results = tools.run_time(queryd.run, [conn, station, date])
-	IsQueryd = True
+        IsQueryd = True
     elif query == 'E':
         highwayid = 3
         date = '2011-09-22'
         if len(args) != 0:
             if len(args[0]) == 1:
-                if args[0] != 3 or args[0] != 4:
+                if args[0] != '3' and args[0] != '4':
                     print "Invalid highwayid"
                     return
                 highwayid = args[0]
             else:
-                highwayid = find_highwayid(conn, args[0])
+                highwayid = int(tools.find_highwayid(conn, args[0]))
                 if highwayid == None:
                     print args[0] + " is an invalid direction"
                     return
+                print "Corresponding highwayid is " + str(highwayid)
         if len(args) >= 2:
             date = args[1]
         runTime, results = tools.run_time(querye.run, [conn, highwayid, date])
     elif query == 'F':
         runTime, results = tools.run_time(queryf.run, [conn])
     else:
-        results = bcolors.TEST + "Invalid query" + bcolors.ENDC
+        results = bcolors.FAIL + "Invalid query" + bcolors.ENDC
         print results
         return
-    if IsQueryd:
-    	print results[0], "\t\t", results[1]
+    if query=='C':
+    	print ' '.join(results)
+    elif IsQueryd:
+        print results[0], "\t\t", results[1]
+    elif results == None:
+        return
     else:
-	print results
+        print results
     print "\nQuery " + query.upper() + " took " + str(runTime) + " seconds to execute.\n"
 
 def main():
@@ -132,18 +95,19 @@ def main():
         print bcolors.FAIL + "Could not connect to region" + bcolors.ENDC
         exit()
     print bcolors.OKGREEN + "Connected to " + region + bcolors.ENDC
-    #print tools.find_highwayid(conn, 'north')
-    print "Enter a query to run, or type EXIT to quit"
-    prompt = bcolors.WARNING + \
+    print bcolors.DARKYELLOW + "Enter a query to run, or type EXIT to quit" + bcolors.ENDC
+    prompt = bcolors.DARKYELLOW + \
              'Enter the query you wish to run followed by any arguments you would like to include \n' + \
-             'For example: c Foster_NB 2011-09-22\n' + bcolors.ENDC
+             'For example: c Foster_NB 2011-09-22\n' + \
+             'Enter \'help\' for the queries and syntax that can be run\n' + bcolors.ENDC
     userInput = ''
     while (True):
         userInput = raw_input(prompt)
         if userInput.upper() == 'EXIT' or userInput.upper() == 'Q':
             break
         elif userInput.upper() == 'HELP':
-            help()
+            os.system('cls' if os.name == 'nt' else 'clear')
+            tools.help()
         else:
             args = userInput.split(' ')[1:]
             query = userInput.split(' ')[0]
