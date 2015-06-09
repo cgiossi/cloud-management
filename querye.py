@@ -4,7 +4,7 @@ import queryd
 
 def run(args):
     conn = args[0]
-    highwayid = args[1]
+    highwayid = int(args[1])
     date = args[2]
     domains = tools.find_teamb(conn)
     results = []
