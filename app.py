@@ -77,16 +77,16 @@ def call_query(conn, query, args=[]):
         print results
         return
     # @Sherry: Now print the results
-    if query=='C':
+    if results == None:
+        return
+    elif query=='C':
     	print ''.join(results)
     elif IsQueryd:
-	print "\nAvg TT in Morning\tAvg TT in Evening\n"
+        print "\nAvg TT in Morning\tAvg TT in Evening\n"
         print results[0], "\t\t", results[1]
     elif IsQuerye:
-	print "\nAvg TT in Morning\tAvg TT in Evening\n"
+        print "\nAvg TT in Morning\tAvg TT in Evening\n"
         print results[0], "\t\t", results[1]
-    elif results == None:
-        return
     else:
         print results
     print "\nQuery " + query.upper() + " took " + str(runTime) + " seconds to execute.\n"
