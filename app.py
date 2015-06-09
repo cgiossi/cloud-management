@@ -24,9 +24,7 @@ def call_query(conn, query, args=[]):
     IsQuerye = False
     if query == 'A':
         domains = tools.find_teamb(conn)
-        speed = 100
-        if len(args) != 0:
-            speed = args[0]
+        speed = 99 
         runTime, results = tools.run_time(querya.run, [conn, domains, speed])
     elif query == 'B':
         station = domainPrefix + 'Foster_NB'
