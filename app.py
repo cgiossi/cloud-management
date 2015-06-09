@@ -91,6 +91,7 @@ def call_query(conn, query, args=[]):
             station = domainPrefix + args[0]
         if len(args) >= 2:
             date = args[1]
+	print "\nAverage Travel Time in Morning\t Average Travel Time in Evening"
         runTime, results = tools.run_time(queryd.run, [conn, station, date])
     elif query == 'E':
         highwayid = 3
@@ -116,7 +117,7 @@ def call_query(conn, query, args=[]):
         print results
         return
     print results
-    print "\n Query " + query.upper() + " took " + str(runTime) + " seconds to execute."
+    print "\nQuery " + query.upper() + " took " + str(runTime) + " seconds to execute.\n"
 
 def main():
     os.system('cls' if os.name == 'nt' else 'clear')
