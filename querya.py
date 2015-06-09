@@ -11,7 +11,7 @@ def run(args):
 	for station in domains:
 		stationDomain = conn.get_domain(station.name)
 		query = 'SELECT count(*)  FROM `' + stationDomain.name + '` ' + \
-        	'WHERE speed > "' + str(speed) + '" '  
+        	'WHERE speed LIKE "10%" AND speed NOT LIKE 10.%'  
 		results = stationDomain.select(query)
 		for row in results:
 			sum += int(row['Count'])	
