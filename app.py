@@ -4,7 +4,12 @@ import tools
 import querya, queryb, queryc, queryd, querye, queryf
 
 class bcolors:
+    BRIGHTWHITE = '\x1b[37m'
+    DARKCYAN = '\x1b[36;1m'
+    DARKMAGENTA = '\x1b[35;1m'
+    DARKYELLOW = '\x1b[33;1m'
     HEADER = '\033[95m'
+    OKCYAN = '\033[96m'
     OKBLUE = '\033[94m'
     OKGREEN = '\033[92m'
     WARNING = '\033[93m'
@@ -12,7 +17,6 @@ class bcolors:
     ENDC = '\033[0m'
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
-    TEST = '\033[101m'
 
 def call_query(conn, query, args=[]):
     domainPrefix = 'TEAMB_'
@@ -45,6 +49,7 @@ def call_query(conn, query, args=[]):
             station = domainPrefix + args[0]
         if len(args) >= 2:
             date = args[1]
+	print "\nAverage Travel Time in Morning\t Average Travel Time in Evening"
         runTime, results = tools.run_time(queryd.run, [conn, station, date])
     elif query == 'E':
         highwayid = 3
@@ -67,11 +72,16 @@ def call_query(conn, query, args=[]):
     elif query == 'F':
         runTime, results = tools.run_time(queryf.run, [conn])
     else:
-        results = bcolors.TEST + "Invalid query" + bcolors.ENDC
+        results = bcolors.FAIL + "Invalid query" + bcolors.ENDC
         print results
         return
-    print results
-    print "Query " + query.upper() + " took " + str(runTime) + " seconds to execute."
+    if query=='C':
+    	print ' '.join(results)
+    elif results == None:
+        return
+    else:
+        print results
+    print "\nQuery " + query.upper() + " took " + str(runTime) + " seconds to execute.\n"
 
 def main():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -82,9 +92,8 @@ def main():
         print bcolors.FAIL + "Could not connect to region" + bcolors.ENDC
         exit()
     print bcolors.OKGREEN + "Connected to " + region + bcolors.ENDC
-    #print tools.find_highwayid(conn, 'north')
-    print "Enter a query to run, or type EXIT to quit"
-    prompt = bcolors.WARNING + \
+    print bcolors.DARKYELLOW + "Enter a query to run, or type EXIT to quit" + bcolors.ENDC
+    prompt = bcolors.DARKYELLOW + \
              'Enter the query you wish to run followed by any arguments you would like to include \n' + \
              'For example: c Foster_NB 2011-09-22\n' + \
              'Enter \'help\' for the queries and syntax that can be run\n' + bcolors.ENDC
@@ -94,6 +103,7 @@ def main():
         if userInput.upper() == 'EXIT' or userInput.upper() == 'Q':
             break
         elif userInput.upper() == 'HELP':
+            os.system('cls' if os.name == 'nt' else 'clear')
             tools.help()
         else:
             args = userInput.split(' ')[1:]

@@ -35,5 +35,5 @@ def run(args):
         endTime += timeInterval
         travelTime = tools.calculate_travel_time(detectors, stationLength)
         count += 1
-        retResults += [travelTime]
+        retResults += [sTime]+['  ']+[str(travelTime)]+['\n']
     return retResults

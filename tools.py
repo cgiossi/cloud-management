@@ -1,6 +1,20 @@
 import boto.sdb
 import time
 
+class bcolors:
+    BRIGHTWHITE = '\x1b[37m'
+    DARKCYAN = '\x1b[36;1m'
+    DARKMAGENTA = '\x1b[35;1m'
+    HEADER = '\033[95m'
+    OKCYAN = '\033[96m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    DARKGREEN = '\x1b[32;1m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
 
 def find_teamb(conn):
     domains = []
@@ -60,62 +74,44 @@ def find_highwayid(conn, direction):
 
 def run_time(query, args):
     start = time.time()
-    results = query(args)
+    try:
+        results = query(args)
+    except boto.exception.SDBResponseError as e:
+        print "Invalid arguments provided"
+        return 0, None
     end = time.time()
     return end - start, results
 
-class bcolors:
-    HEADER = '\033[95m'
-    OKBLUE = '\033[94m'
-    OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
-    FAIL = '\033[91m'
-    ENDC = '\033[0m'
-    BOLD = '\033[1m'
-    UNDERLINE = '\033[4m'
-    TEST = '\033[101m'
 
 def help():
     print bcolors.OKGREEN,
     print "\ba",
     print bcolors.ENDC
-    print bcolors.OKBLUE,
-    print "\bFind the count of vehicles travelling greater than 100 MPH",
-    print bcolors.ENDC
+    print "Find the count of vehicles travelling greater than 100 MPH"
     print bcolors.OKGREEN,
     print "\bb [station]",
     print bcolors.ENDC
-    print bcolors.OKBLUE,
-    print "\bFind the volume of a given station on a given date. Defaults to Foster_NB and"
-    print "2011-09-21. Dates should be of the form YYYY-MM-DD.",
-    print bcolors.ENDC
+    print "Find the volume of a given station on a given date. Defaults to Foster_NB and"
+    print "2011-09-21. Dates should be of the form YYYY-MM-DD."
     print bcolors.OKGREEN,
     print "\bc [station] [date]",
     print bcolors.ENDC
-    print bcolors.OKBLUE,
-    print "\bFind the travel time for five minute intervals of the given stations and given"
-    print "date. Defaults to Foster_NB and 2011-09-22. Dates should of the form YYYY-MM-DD",
-    print bcolors.ENDC
+    print "Find the travel time for five minute intervals of the given stations and given"
+    print "date. Defaults to Foster_NB and 2011-09-22. Dates should of the form YYYY-MM-DD"
     print bcolors.OKGREEN,
     print "\bd [station] [date]",
     print bcolors.ENDC
-    print bcolors.OKBLUE,
-    print "\bFind the travel time for peak periods of the given stations on the given date."
+    print "Find the travel time for peak periods of the given stations on the given date."
     print "Results are in seconds. Defaults to Foster_NB and 2011-09-22. Dates should be"
-    print "of the form YYYY-MM-DD.",
-    print bcolors.ENDC
+    print "of the form YYYY-MM-DD."
     print bcolors.OKGREEN,
     print "\be ([highwayid]|[direction]) [date]",
     print bcolors.ENDC
-    print bcolors.OKBLUE,
-    print "\bFind the travel time for peak periods of the given highway on the given date."
+    print "Find the travel time for peak periods of the given highway on the given date."
     print "Results arae in minutes. Defaults to I-205 NB and 2011-09-22. Currently only"
     print "supports I-205. Direction should be either north or south. Dates should be of"
-    print "the form YYYY-MM-DD.",
-    print bcolors.ENDC
+    print "the form YYYY-MM-DD."
     print bcolors.OKGREEN,
     print "\bf",
     print bcolors.ENDC
-    print bcolors.OKBLUE,
-    print "\bFind a route from Johnson Cr Blvd and I-205 NB at Columbia"
-    print bcolors.ENDC
+    print "Find a route from Johnson Cr Blvd and I-205 NB at Columbia"
