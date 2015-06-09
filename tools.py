@@ -1,4 +1,6 @@
 import boto.sdb
+import time
+
 
 def find_teamb(conn):
     domains = []
@@ -56,5 +58,8 @@ def find_highwayid(conn, direction):
         print "Not a valid direction"
         return None
 
-
-
+def run_time(query, args):
+    start = time.time()
+    results = query(args)
+    end = time.time()
+    return end - start, results

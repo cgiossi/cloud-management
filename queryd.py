@@ -2,8 +2,10 @@ import boto.sdb
 import tools
 
 #Find travel time for 7-9AM and 4-6PM 9/22/11 in seconds for Foster NB
-def run(conn, station, date):
-
+def run(args):
+    conn = args[0]
+    station = args[1]
+    date = args[2]
     morningStartTime = date + " 07:00:00"
     morningEndTime = date + " 09:00:00"
     eveningStartTime = date + " 16:00:00"

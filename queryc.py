@@ -1,7 +1,10 @@
 import boto.sdb, datetime
 import tools
 
-def run(conn, station, date):
+def run(args):
+    conn = args[0]
+    station = args[1]
+    date = args[2]
     count = 0
     retResults = []
     timeInterval = datetime.timedelta(0,0,0,0,5)

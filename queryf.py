@@ -2,7 +2,8 @@ import boto.sdb
 import tools
 
 
-def run(conn):
+def run(args):
+	conn = args[0]
 	rs1 = []
 	domains = []
 	route =[]
