@@ -62,6 +62,7 @@ def help():
 
 def call_query(conn, query, args=[]):
     domainPrefix = 'TEAMB_'
+    IsQueryd = False
     if query == 'A':
         domains = tools.find_teamb(conn)
         speed = 100
@@ -91,8 +92,8 @@ def call_query(conn, query, args=[]):
             station = domainPrefix + args[0]
         if len(args) >= 2:
             date = args[1]
-	print "\nAverage Travel Time in Morning\t Average Travel Time in Evening"
         runTime, results = tools.run_time(queryd.run, [conn, station, date])
+	IsQueryd = True
     elif query == 'E':
         highwayid = 3
         date = '2011-09-22'
@@ -116,7 +117,10 @@ def call_query(conn, query, args=[]):
         results = bcolors.TEST + "Invalid query" + bcolors.ENDC
         print results
         return
-    print results
+    if IsQueryd:
+    	print results[0], "\t\t", results[1]
+    else:
+	print results
     print "\nQuery " + query.upper() + " took " + str(runTime) + " seconds to execute.\n"
 
 def main():
