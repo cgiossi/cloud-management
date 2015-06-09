@@ -80,7 +80,7 @@ def call_query(conn, query, args=[]):
         return
     # @Sherry: Now print the results
     if query=='C':
-    	print ' '.join(results)
+    	print ''.join(results)
     elif IsQueryd:
 	print "\nAvg TT in Morning\tAvg TT in Evening\n"
         print results[0], "\t\t", results[1]
