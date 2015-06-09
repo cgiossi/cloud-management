@@ -119,7 +119,7 @@ def call_query(conn, query, args=[]):
     if query=='C':
     	print ' '.join(results)
     else:
-	print Results
+	print results
     print "\nQuery " + query.upper() + " took " + str(runTime) + " seconds to execute.\n"
 
 def main():
