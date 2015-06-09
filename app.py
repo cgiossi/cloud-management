@@ -77,7 +77,7 @@ def call_query(conn, query, args=[]):
         print results
         return
     if query=='C':
-    	print ' '.join(results)
+    	print ''.join(results)
     elif IsQueryd:
         print results[0], "\t\t", results[1]
     elif results == None:

@@ -5,7 +5,7 @@ import tools
 def run(args):
 	conn = args[0]
 	rs1 = []
-	domains = []
+	#domains = []
 	route =[]
 	flag='Y'
 	domains = tools.find_teamb(conn)
@@ -21,7 +21,7 @@ def run(args):
 		if row['locationtext'] == 'I-205 NB at Columbia':
 			uid = row['stationid']
 			finalLocation = row['locationtext']
-			print uid
+			#print uid
 	#if the downstream id and upstream id are null then route cannot be found
 	if (did==None) or (uid == None):
 		print "Error! Route cannot be found"
@@ -29,14 +29,14 @@ def run(args):
 		while (did != uid):
 			for row in rs1:
 				if (row['stationid'] == did):
-					print row['stationid']
+					#print row['stationid']
 					route += [str(row['locationtext'])]
 					did = row['downstream']
 					break
 			if (did == '0') and (did!=uid):
-				print "No direct Route between the stations"
+				route= "No direct Route between the stations"
 				flag='N'
 				break
 		if(flag=='Y'):
 			route += [str(finalLocation)]
-			return route
+		return route
